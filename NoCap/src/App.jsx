@@ -1,12 +1,20 @@
-import NewsForm from "./components/NewsForm";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/NavBar.jsx";
+import Home from "./components/Home.jsx";
+import Detect from "./components/Detect.jsx";
 
 function App() {
   return (
-    <div className="app">
-      <h1>📰 Fake News Detection</h1>
-      <p>Paste news text below and check authenticity</p>
-      <NewsForm />
-    </div>
+    <BrowserRouter>
+      <Navbar />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/detect" element={<Detect />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
