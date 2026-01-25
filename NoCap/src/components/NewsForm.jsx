@@ -1,50 +1,18 @@
-import { useState } from "react";
-
-function NewsForm() {
-  const [news, setNews] = useState("");
-  const [result, setResult] = useState("");
-  const [loading, setLoading] = useState(false);
-
+function NewsForm({ setResult }) {
   const handleSubmit = async () => {
-    if (!news.trim()) {
-      alert("Please enter news text!");
-      return;
-    }
-
-    setLoading(true);
-    setResult("");
-
-    try {
-      const response = await fetch("http://127.0.0.1:5000/prediction", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ news: news }),
-      });
-
-      const data = await response.json();
-      setResult(data.prediction);
-    } catch (err) {
-      setResult("Error connecting backend ❌");
-    }
-
-    setLoading(false);
+    // abhi dummy result
+    setResult("Fake News");
   };
 
   return (
-    <div className="card">
-      <textarea
-        placeholder="Paste news here..."
-        value={news}
-        onChange={(e) => setNews(e.target.value)}
-      />
-
-      <button onClick={handleSubmit}>
-        {loading ? "Checking..." : "Check News"}
+    <div>
+      <textarea className="w-full p-4 border rounded mb-4" />
+      <button
+        onClick={handleSubmit}
+        className="px-6 py-2 bg-red-500 text-white rounded"
+      >
+        Check News
       </button>
-
-      {result && <h2>Result: {result}</h2>}
     </div>
   );
 }
