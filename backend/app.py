@@ -3,9 +3,12 @@ from flask_cors import CORS
 import pickle
 import os
 import re
+import psycopg2
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
+
+
 
 # Download stopwords if not already present
 print("Checking for stopwords...")
@@ -18,7 +21,7 @@ except LookupError:
     print("Stopwords downloaded.")
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 import requests
 from bs4 import BeautifulSoup
@@ -107,6 +110,7 @@ model_path = os.path.join(base_dir, "finalized_model.pkl")
 vector = None
 model = None
 
+# ---------- Load Vectorizer ----------
 try:
     if os.path.exists(vectorizer_path) and os.path.getsize(vectorizer_path) > 0:
         with open(vectorizer_path, "rb") as f:
@@ -114,7 +118,11 @@ try:
         print("Vectorizer loaded successfully.")
     else:
         print("Vectorizer not found or empty.")
-    
+except Exception as e:
+    print(f"Error loading vectorizer: {e}")
+
+# ---------- Load Model ----------
+try:
     if os.path.exists(model_path) and os.path.getsize(model_path) > 0:
         with open(model_path, "rb") as f:
             model = pickle.load(f)
@@ -122,7 +130,21 @@ try:
     else:
         print("Model not found or empty.")
 except Exception as e:
-    print(f"Error loading models: {e}")
+    print(f"Error loading model: {e}")
+
+# ---------- PostgreSQL Connection (YAHIN) ----------
+import psycopg2
+
+conn = psycopg2.connect(
+    dbname="fake_news_db",
+    user="postgres",
+    password="jangra.11",   # 🔴 apna password
+    host="localhost",
+    port="5432"
+)
+
+cursor = conn.cursor()
+
 
 @app.route("/prediction", methods=["POST"])
 def prediction():
@@ -152,6 +174,26 @@ def prediction():
     
     if not combined_content.strip():
         return jsonify({"error": "No content to predict"}), 400
+    
+@app.route("/report", methods=["POST", "OPTIONS"])
+def report_news():
+    if request.method == "OPTIONS":
+        return jsonify({"message": "OK"}), 200
+
+    data = request.get_json()
+
+    news = data.get("news")
+    reason = data.get("reason")
+    comment = data.get("comment")
+
+    cursor.execute(
+        "INSERT INTO reports (news, reason, comment) VALUES (%s, %s, %s)",
+        (news, reason, comment)
+    )
+    conn.commit()
+
+    return jsonify({"message": "Report stored successfully"}), 200
+
     
     # Preprocess with stemming
     processed_content = stemming(combined_content)

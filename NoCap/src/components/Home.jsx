@@ -22,15 +22,15 @@ function Home() {
           <div className="md:w-1/2 mt-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
               Stop Fake News.
-              <span className="text-red-500"> Verify Before You Trust.</span>
+              <span className="text-red-600"> Verify Before You Trust.</span>
             </h1>
 
-            <p className="text-sm text-gray-600 mb-8 pl-2 pr-4">
+            <p className="text-sm text-gray-800 mb-8 pl-2 pr-4">
               NoCap is an AI-powered fake news detection platform that helps users verify the authenticity of news content. By analyzing textual patterns using machine learning techniques, NoCap determines whether a piece of news is real or misleading. The platform aims to combat misinformation, promote digital awareness, and encourage responsible sharing of information by providing quick, reliable, and easy-to-understand results.
             </p>
 
             <Link to="/detect">
-              <button className="px-4 py-2 bg-red-500 text-white rounded-lg mt-[220px] hover:bg-red-600 transition">
+              <button className="px-4 py-2 bg-red-600 text-white rounded-lg mt-[220px] hover:bg-red-600 transition">
                 Start Detecting
               </button>
             </Link>

@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.feature-card {
+  border-left: 5px solid #de2d2d;
+}
+
