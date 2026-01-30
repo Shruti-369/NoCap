@@ -1,0 +1,11 @@
+# Backend (Python) requirements for Fake_newsDetection/backend
+# Recommended Python: 3.8 - 3.11
+flask
+flask-cors
+scikit-learn
+pandas
+numpy
+nltk
+kaggle
+beautifulsoup4
+requests

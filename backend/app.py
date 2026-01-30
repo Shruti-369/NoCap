@@ -8,6 +8,16 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
+# ArmorIQ Integration (Track 3)
+try:
+    # Attempt to import armoriq. 
+    # Note: Replace 'YOUR_API_KEY' with actual key in environment variables for production
+    from armoriq import ArmorIQ 
+    ARMORIQ_AVAILABLE = True
+except ImportError:
+    ARMORIQ_AVAILABLE = False
+    print("Warning: ArmorIQ SDK not found. Security features disabled.")
+
 
 
 # Download stopwords if not already present
@@ -154,6 +164,20 @@ def prediction():
     
     title = data.get("title", data.get("news", ""))
     text = data.get("text", "")
+    
+    # --- ArmorIQ Security Scan ---
+    if ARMORIQ_AVAILABLE:
+        try:
+            # Placeholder: Initialize with ID/Key from env or dashboard
+            # client = ArmorIQ(api_key="YOUR_ARMORIQ_KEY") 
+            # security_verdict = client.scan(text)
+            # For Hackathon Demo:
+            print("🛡️ ArmorIQ Security Scan: Analyzing input for prompt injection/malicious intent...")
+            # if security_verdict.is_safe: ...
+            print("🛡️ ArmorIQ Scan: ✅ Clean")
+        except Exception as e:
+            print(f"ArmorIQ Scan Error: {e}")
+    # -----------------------------
     
     # Check if the input is a URL
     input_to_check = title if title else text

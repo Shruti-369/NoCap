@@ -1,0 +1,16 @@
+[
+  {
+    "id": "Redirect_Fake_News",
+    "name": "Redirect Known Fake News to Detector",
+    "description": "Redirects traffic from example-fake.com to the robust Fake News Detector.",
+    "ruleType": "Redirect",
+    "status": "Active",
+    "source": {
+      "key": "Url",
+      "operator": "Contains",
+      "value": "example-fake.com"
+    },
+    "destination": "http://localhost:5173",
+    "isSSL": false
+  }
+]

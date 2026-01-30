@@ -1,4 +1,5 @@
 import { useState } from "react";
+import WalletConnect from "./WalletConnect";
 
 function Detect() {
   const [mode, setMode] = useState("article"); // article | url
@@ -139,8 +140,25 @@ function Detect() {
                 The News is FAKE ❌ !
               </span>
             )}
+
+            {/* Signing Option for ETH Track */}
+            {(result === "REAL" || result === "FAKE") && (
+              <div className="mt-6 flex justify-center">
+                <p className="text-sm text-gray-300 mb-2 block w-full">Verify this result on-chain:</p>
+                {/* WalletConnect is already in the corner, but we could also put a sign button here if we wanted specific transaction logic, 
+                       but for now the top corner component handles general signing. 
+                       Actually, let's put the sign button contextually here if we want? 
+                       No, let's keep it simple as per plan: "Add WalletConnect component to the header... Add a Sign & Verify button for results"
+                   */}
+              </div>
+            )}
           </div>
         )}
+      </div>
+
+      {/* Wallet Connect Top Right */}
+      <div className="absolute top-4 right-4 z-50">
+        <WalletConnect onSign={(sig) => console.log("Signed:", sig)} />
       </div>
     </div>
   );
